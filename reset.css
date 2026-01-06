@@ -1,0 +1,57 @@
+
+* {
+    margin: 0;         
+    padding: 0;         
+    box-sizing: border-box; 
+  }
+  
+
+  ul,
+  ol {
+    list-style: none;  
+  }
+  
+
+  a {
+    text-decoration: none; 
+    color: inherit;       
+  }
+  
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: inherit;
+    font-weight: normal; 
+  }
+  
+  
+  img {
+    display: block;    
+    max-width: 100%;   
+  }
+  
+  
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;      
+    outline: none;    
+    border: none;     
+    background: none;   
+  }
+  
+
+  address {
+    font-style: normal;
+  }
+  
+  blockquote,
+  q {
+    quotes: none;
+  }
+  
