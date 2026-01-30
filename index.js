@@ -6,6 +6,7 @@ const refs = {
   loadBtn: document.querySelector("#load-more"),
 };
 
+
 let query = "";
 let perPage = Number(localStorage.getItem("per_page")) || 12;
 
