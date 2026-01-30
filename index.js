@@ -1,93 +1,64 @@
+import { fetchApi } from "./pixabay-api";
 
-const searchForm = document.getElementById('search-form')
-const gallery = document.querySelector('.gallery')
-const more = document.querySelector('.more')
+const refs = {
+  list: document.querySelector(".image-list"),
+  input: document.querySelector("#search-input"),
+  loadBtn: document.querySelector("#load-more"),
+};
 
-const API = '53866451-00fcffb608ed44a02a942cc2f'
-const PER_PAGE = 12
-let page = 1
-let searchText = ''
+let query = "";
+let perPage = Number(localStorage.getItem("per_page")) || 12;
 
+localStorage.setItem("per_page", perPage);
 
-function createGallery(images) {
-    const newPhoto =  images
-      .map(
-        (image) => `
-        <li>
-          <div class="photo-card">
-            <img src="${image.webformatURL}" alt="${image.tags}" />
-            <div class="stats">
-              <p class="stats-item">
-                <i class="material-icons">thumb_up</i>${image.likes}
-              </p>
-              <p class="stats-item">
-                <i class="material-icons">visibility</i>${image.views}
-              </p>
-              <p class="stats-item">
-                <i class="material-icons">comment</i>${image.comments}
-              </p>
-              <p class="stats-item">
-                <i class="material-icons">cloud_download</i>${image.downloads}
-              </p>
-            </div>
-          </div>
-        </li>
-      `
-      ).join('');
-      gallery.insertAdjacentHTML('beforeend', newPhoto)
+function renderImages(images) {
+  const markup = images
+    .map(
+      img => `
+      <li class="image-item">
+        <article class="image-card">
+          <img src="${img.largeImageURL}" alt="" loading="lazy"/>
+          <ul class="image-info">
+            <li>❤ ${img.likes}</li>
+            <li>👁 ${img.views}</li>
+            <li>💬 ${img.comments}</li>
+            <li>⬇ ${img.downloads}</li>
+          </ul>
+        </article>
+      </li>`
+    )
+    .join("");
+
+  refs.list.insertAdjacentHTML("beforeend", markup);
+}
+
+function loadImages(reset = false) {
+  if (reset) refs.list.innerHTML = "";
+
+  return fetchApi(query, perPage).then(renderImages);
+}
+
+const handleSearch = e => {
+  query = e.target.value.trim();
+
+  if (!query) {
+    refs.list.innerHTML = "";
+    return;
   }
-  
 
-async function fetchImages() {
-    try {
-        const respone = await fetch(`https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${searchText}&page=${page}&per_page=${PER_PAGE}&key=${API}`)
-        const data = await respone.json()
-        return data.hits
-    }
-    catch(error) {
-        console.log('Fetch error')
-        return []
-    }
-}
+  perPage = 12;
+  localStorage.setItem("per_page", perPage);
+  loadImages(true);
+};
 
+refs.input.addEventListener("input", _.debounce(handleSearch, 500));
 
+refs.loadBtn.addEventListener("click", () => {
+  perPage += 12;
+  localStorage.setItem("per_page", perPage);
 
-searchForm.addEventListener('submit', async (event) => {
-    event.preventDefault()
-
-    searchText = event.target.elements.query.value.trim()
-
-    if (searchText === ''){
-        return
-    }
-    
-
-    page = 1
-    gallery.innerHTML = ''
-    more.hidden = true
-
-    await loadImages()
-})
-
-more.addEventListener('click', async () => {
-    page += 1;
-    await loadImages(true);
+  loadImages().then(() => {
+    const lastItem = refs.list.lastElementChild;
+    lastItem?.scrollIntoView({ behavior: "smooth" });
   });
-  
-async function loadImages(isLoadMore = false) {
-    try {
-        const images = await fetchImages(searchText, page)
-
-        if (images.length === 0){
-            more.hidden = true
-        }
-
-
-        more.hidden = false
-
-    }
-    catch (error) {
-        console.log('Error')
-    }
-
-}
+});
