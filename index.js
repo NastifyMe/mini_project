@@ -1,4 +1,4 @@
-import { fetchApi } from "./pixabay-api";
+import { fetchApi } from "./pixabay-api.js";
 
 const refs = {
   list: document.querySelector(".image-list"),
