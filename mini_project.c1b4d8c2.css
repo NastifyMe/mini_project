@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: normal;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+address {
+  font-style: normal;
+}
+
+blockquote, q {
+  quotes: none;
+}
+/*# sourceMappingURL=mini_project.c1b4d8c2.css.map */
