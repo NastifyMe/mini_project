@@ -714,7 +714,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"jOXmm":[function(require,module,exports,__globalThis) {
-var _pixabayApi = require("./pixabay-api");
+var _pixabayApiJs = require("./pixabay-api.js");
 const refs = {
     list: document.querySelector(".image-list"),
     input: document.querySelector("#search-input"),
@@ -740,7 +740,7 @@ function renderImages(images) {
 }
 function loadImages(reset = false) {
     if (reset) refs.list.innerHTML = "";
-    return (0, _pixabayApi.fetchApi)(query, perPage).then(renderImages);
+    return (0, _pixabayApiJs.fetchApi)(query, perPage).then(renderImages);
 }
 const handleSearch = (e)=>{
     query = e.target.value.trim();
@@ -764,7 +764,7 @@ refs.loadBtn.addEventListener("click", ()=>{
     });
 });
 
-},{"./pixabay-api":"aHJxR"}],"aHJxR":[function(require,module,exports,__globalThis) {
+},{"./pixabay-api.js":"aHJxR"}],"aHJxR":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "fetchApi", ()=>fetchApi);
